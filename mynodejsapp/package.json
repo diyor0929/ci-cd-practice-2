@@ -4,8 +4,8 @@
   "description": "A simple Node.js Express app that says Hello, world!",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
   },
   "keywords": [
     "node",
