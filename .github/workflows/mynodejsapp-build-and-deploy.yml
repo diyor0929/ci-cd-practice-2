@@ -20,7 +20,7 @@ jobs:
       - name: Build  and pus docker image
         run: |
           cd mynodejsapp 
-          docker build -t  registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }} -f Dockerfile-producktion .
+          docker build -t  registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }} -f Dockerfile-production .
      
           docker login registry.digitalocean.com -u dockeruser -p ${{ secrets.REGISTRY_TOKEN}}
       
