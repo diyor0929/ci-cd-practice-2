@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # 4. Install dependencies
-RUN npm install --production
+RUN npm ci
 
 # 5. Copy the rest of your app’s code
 COPY . .
