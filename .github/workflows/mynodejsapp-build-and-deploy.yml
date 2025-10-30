@@ -17,10 +17,11 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build docker image
-        run: docker build -t  registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }}
-
-      - name: Login to container registry
-        run: docker login registry.digitalocean.com -u dockeruser -p ${{ secrets.REGISTRY_TOKEN}}
-      - name: Push image to container registry
-        run: docker push registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }}
+      - name: Build  and pus docker image
+        run: |
+          cd mynodejsapp
+          docker build -t  registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }} -f Dockerfile-producktion .
+     
+          docker login registry.digitalocean.com -u dockeruser -p ${{ secrets.REGISTRY_TOKEN}}
+      
+          docker push registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }}
