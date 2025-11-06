@@ -24,4 +24,31 @@ jobs:
      
           docker login registry.digitalocean.com -u dockeruser -p ${{ secrets.REGISTRY_TOKEN}}
       
+
           docker push registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }}
+          
+deploy:
+  runs-on: ubuntu-latest
+  name: Deploy app
+  steps:
+    - uses: actions/checkout@v4
+
+
+    - name: Setup SSH
+      run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+
+    - name: Copy files to server via SCP
+      run: |
+            scp -r ./docker-compose.yml ./app user@your-server-ip:/home/user/deploy
+
+    - name: Deploy via SSH
+      run: |
+              ssh user@your-server-ip "
+                cd /home/user/deploy && \
+                docker compose pull && \
+                docker compose up -d --build
+              "
