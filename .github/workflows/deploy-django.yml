@@ -23,9 +23,16 @@ jobs:
       - name : pip install packages
         working-directory: ./mydjangoapp
         run:
+          # 1. Virtual muhit yaratish
           python3 -m venv env
-          source env/bin/activate
-          pip3 install -r requirements.txt
+
+          # 2. Virtual muhitni faollashtirish
+          source env/bin/activate   # Linux/macOS
+          # .\env\Scripts\activate  # Windows
+
+          # 3. Requirements o'rnatish
+          pip install -r requirements.txt
+
 
 
       - name: Copy files via SSh
