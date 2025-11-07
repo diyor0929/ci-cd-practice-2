@@ -1,0 +1,38 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+
+# === Django ===
+*.log
+*.pot
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+local_settings.py
+
+# If using collectstatic for deployment
+/static/
+
+# === Virtual Environment ===
+venv/
+env/
+.venv/
+ENV/
+
+# === Environment Variables ===
+.env
+*.env
+
+# === IDE / Editor Files ===
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# === macOS / Windows ===
+.DS_Store
+Thumbs.db
+
+# === Test / Coverage
