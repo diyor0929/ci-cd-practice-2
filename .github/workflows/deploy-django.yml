@@ -6,6 +6,7 @@ on:
       - main
 
     paths:
+      - '.github/workflows/deploy-django.yml'
       - 'mydjangoapp/**'
   workflow_dispatch:
 
