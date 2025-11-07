@@ -17,7 +17,7 @@ jobs:
       - uses: action/checkout@v4
       - uses: action/setup-python@v5
         with:
-          python-version: '3.13.5'
+          python-version: '3.12.7'
 
       - name : pip install packages
         working-directory: ./mydjangoapp
