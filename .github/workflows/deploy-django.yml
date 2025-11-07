@@ -47,3 +47,10 @@ jobs:
       - name: Restart Gunicorn service
         uses: appleboy/ssh-action@v1
         with:
+          host: ${{ secrets.DJANGO_SSH_HOST }}
+          username: ${{ secrets.DJANGO_SSH_USERNAME }}
+          key: ${{ secrets.DJANGO_SSH_KEY }}
+          port: ${{ secrets.DJANGO_SSH_PORT }}
+          script: |
+            systemctl daemon-reload
+            systemctl restart gunicorn
