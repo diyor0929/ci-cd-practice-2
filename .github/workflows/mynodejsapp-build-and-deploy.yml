@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     paths:
-      - mynodejsapp
+      - 'mynodejsapp/**'
   workflow_dispatch:
 
 jobs:

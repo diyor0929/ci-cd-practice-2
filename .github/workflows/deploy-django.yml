@@ -6,7 +6,7 @@ on:
       - main
 
     paths:
-      - mydjangoapp
+      - 'mydjangoapp/**'
   workflow_dispatch:
 
 jobs:
