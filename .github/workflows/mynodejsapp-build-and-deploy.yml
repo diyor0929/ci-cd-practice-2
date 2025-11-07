@@ -2,14 +2,12 @@ name: "[My node js app] Build and Deploy"
 
 on:
   push:
-     branches:
-        - "main"
-
-     paths:
-       - mynodejsapp
-
-
+    branches:
+      - "main"
+    paths:
+      - mynodejsapp
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,40 +15,37 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set upp Docker Buildx
+      - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Build  and pus docker image
+      - name: Build and push Docker image
         run: |
           cd mynodejsapp 
-          docker build -t  registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }} -f Dockerfile-production .
-     
-          docker login registry.digitalocean.com -u dockeruser -p ${{ secrets.REGISTRY_TOKEN}}
-      
-
+          docker build -t registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }} -f Dockerfile-production .
+          docker login registry.digitalocean.com -u dockeruser -p ${{ secrets.REGISTRY_TOKEN }}
           docker push registry.digitalocean.com/containerregistry/mynodejsapp:${{ github.sha }}
 
-deploy:
-  runs-on: ubuntu-latest
-  needs: build
-  steps:
-    - uses: actions/checkout@v4
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Setup SSH
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
 
-    - name: Copy files to server via SCP
-      run: |
-        scp -r ./docker-compose.yml ./app user@your-server-ip:/home/user/deploy
+      - name: Copy files to server via SCP
+        run: |
+          scp -r ./docker-compose.yml ./app user@your-server-ip:/home/user/deploy
 
-    - name: Deploy via SSH
-      run: |
-        ssh user@your-server-ip "
-          cd /home/user/deploy && \
-          docker compose pull && \
-          docker compose up -d --build
-        "
+      - name: Deploy via SSH
+        run: |
+          ssh user@your-server-ip "
+            cd /home/user/deploy && \
+            docker compose pull && \
+            docker compose up -d --build
+          "
